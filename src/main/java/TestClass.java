@@ -1,3 +1,6 @@
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +13,11 @@ import static org.junit.Assert.fail;
 
 public class TestClass {
 
+    //Sets driver for the tests
+    static {
+        System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
+    }
+
     private WebDriver driver;
     private String baseUrl;
     private StringBuffer verificationErrors = new StringBuffer();
@@ -21,8 +29,8 @@ public class TestClass {
     Opens the driver and goes to the url given.  Checks whether it is loaded.
     throws Assertion Error if not
      */
-    @BeforeClass
-    public void setUp() {
+    @When("^I have opened \"([^\"]*)\" as a browser$")
+    public void setUp(String baseUrl) {
         driver = new FirefoxDriver();
         baseUrl = new String("https://www.amazon.com/");
         driver.get(baseUrl);
@@ -37,9 +45,8 @@ public class TestClass {
 
     }
 
-    @Before
-    public void testAmazonLogIn() {
-
+    @When("^I sign in with ([^/]+)/([^/]+)$")
+    public void testAmazonSignIn(String eMailAddress, String password) {
         eMailAddress = new String("hazalgunduz@yahoo.com");
         password = new String("123456");
 
@@ -53,11 +60,20 @@ public class TestClass {
         driver.findElement(By.cssSelector("#ap_password")).sendKeys(password);
         driver.findElement(By.cssSelector("#signInSubmit")).click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
     }
 
-    @Test
-    public void itemSearch() {
+    @Then("^I see text \"([^\"]*)\"$")
+    public void iSeeText(String arg0) throws Throwable {
+        try {
+            driver.findElement(By.cssSelector("h2.a-spacing-none")).isDisplayed();
+        } catch (NoSuchElementException e) {
+            System.out.println("Login Unsuccessful");
+            System.exit(1);
+        }
+    }
+
+    @When("^I fill \"([^\"]*)\" as \"([^\"]*)\"$")
+    public void itemSearch(String str1, String str2) {
 
         driver.findElement(By.id("twotabsearchtextbox")).clear();
         driver.findElement(By.id("twotabsearchtextbox")).sendKeys("Samsung");
@@ -71,7 +87,10 @@ public class TestClass {
         } catch (AssertionError assertionError) {
             System.exit(1);
         }
+    }
 
+    @When("^I navigate to \"([^\"]*)\"$")
+    public void goToPageTwo(String str3) {
         driver.findElement(By.cssSelector("span.pagnLink:nth-child(3) > a:nth-child(1)")).click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
@@ -81,10 +100,12 @@ public class TestClass {
             System.out.println("Page 2 cannot be reached");
             System.exit(1);
         }
+    }
 
+    @When("^I select ([^\"]*) for ([^\"]*)$")
+    public void manageItem(String str4, String str5) {
         driver.findElement(By.linkText("Click to see price")).click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
 
         String urlCheck = new String(driver.findElement(By.className("a-size-large")).getText().toString());
 
@@ -99,9 +120,11 @@ public class TestClass {
             System.out.println("Element not found in Wish List");
             System.exit(1);
         }
+    }
 
+    @When("^I click (.+)$")
+    public void deleteItem(String str6){
         driver.findElement(By.name("submit.deleteItem")).click();
-
         try {
             driver.findElement(By.cssSelector("div.a-alert-inline:nth-child(1) > div:nth-child(1) > div:nth-child(2)")).isDisplayed();
         } catch (NoSuchElementException e) {
