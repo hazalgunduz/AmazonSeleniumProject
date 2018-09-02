@@ -15,14 +15,17 @@ Normally, any browser can be used with selenium.  In this project, we will use M
 It can also be installed via URL above. 
 
 Placing Selenium.jar in Intellij IDEA.
+
 Step 1.  In Intellij IDEA, go to File (Top left corner) -> Project Structure -> Modules.
 Step 2. Click + sign on the right corner of the newly opened window. 
 Step 3. Select Jars and Directories.
 Step 4. Browse for the jar file and select. 
 
 Manual
+
 The program will start runing when `Run` is hit on the upper right corner.
 
 Author
+
 Hazal Gunduz
 
