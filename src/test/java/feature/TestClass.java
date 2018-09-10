@@ -1,5 +1,6 @@
 package feature;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.*;
@@ -109,9 +110,13 @@ public class TestClass {
     @When("^I select ([^\"]*) for ([^\"]*)$")
     public void manageItem(String item, String list) {
         if (item.isEmpty()) {
-            throw new NullPointerException();
-        } else{
-            driver.findElement(By.linkText("Click to see price")).click();
+            throw new NullPointerException("Nothing selected");
+        }else{
+            try {
+                driver.findElement(By.linkText("Click to see price")).click();
+            }catch (ElementNotFoundException e){
+                System.out.println("Desired element cannot be found.");
+            }
         }
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
