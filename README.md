@@ -9,7 +9,7 @@ Other IDEs can also be used like Eclipse, NetBeans etc.  In this document, all I
 3.	Selenium (in form of .jar)
 Selenium is a key part of this program.  Selenium jar can be downloaded via https://www.seleniumhq.org/download/.  
 Later steps will be discussed below. 
-4.	Mozilla Firefox web browser 
+4.	Mozilla Firefox web browser. 
 Normally, any browser can be used with selenium.  In this project, we will use Mozilla Firefox.
 5.	Mozilla Geckodriver
 It can also be installed via URL above. 
